@@ -38,7 +38,7 @@
     function () {
       if (!opClient) {
         console.warn(
-          "OpenInstall 尚未初始化完成"
+          "请稍后点击下载"
         );
         return;
       }
