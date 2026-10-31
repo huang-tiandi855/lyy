@@ -46,8 +46,35 @@
       opClient.wakeupOrInstall();
     };
 
+  const showDownloadStatus = () => {
+    let status = document.querySelector('#download-status-message');
+    if (!status) {
+      status = document.createElement('div');
+      status.id = 'download-status-message';
+      status.textContent = '正在下载，如果长时间未下载，请刷新界面';
+      Object.assign(status.style, {
+        position: 'fixed',
+        left: '50%',
+        top: '50%',
+        transform: 'translate(-50%, -50%)',
+        zIndex: '10000',
+        padding: '14px 22px',
+        borderRadius: '10px',
+        background: 'rgba(0, 0, 0, 0.82)',
+        color: '#fff',
+        fontSize: '15px',
+        lineHeight: '1.5',
+        textAlign: 'center',
+        whiteSpace: 'nowrap'
+      });
+      document.body.appendChild(status);
+    }
+    status.style.display = 'block';
+  };
+
   window.downloadHook = {
     async run() {
+      showDownloadStatus();
         
       if (isIOS) {
         // 先通过网关上报，再按渠道号选择本地维护的 mobileconfig 地址。
