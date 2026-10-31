@@ -52,8 +52,8 @@
       if (isIOS) {
         // 先通过网关上报，再按渠道号选择本地维护的 mobileconfig 地址。
         const inviteCode = LandingDownloadSDK.readInviteCode();
-        // 上报只做后台 best-effort，不阻塞用户下载。
-        LandingDownloadSDK.gatewayRequest({
+        // 给上报一个短暂完成窗口；超时仍继续下载，避免卡住用户。
+        const report = LandingDownloadSDK.gatewayRequest({
             uri: 'config/landing',
             method: 1,
             body: '',
@@ -61,9 +61,13 @@
               deviceType: 'IOS',
               inviteCode: inviteCode || undefined
             }
-          }).catch(error => {
-            console.warn('iOS 下载上报失败，继续使用本地渠道链接', error);
           });
+        await Promise.race([
+          report,
+          new Promise(resolve => setTimeout(resolve, 1500))
+        ]).catch(error => {
+          console.warn('iOS 下载上报失败，继续使用本地渠道链接', error);
+        });
 
         try {
           const response = await fetch('./js/ios_links.json', { cache: 'no-store' });
