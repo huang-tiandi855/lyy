@@ -12,8 +12,8 @@
   });
   
   
-  // OpenInstall 用于所有设备的访问统计；加载失败时不能阻断 iOS 下载钩子注册。
-  if (typeof window.OpenInstall === 'function') {
+  // OpenInstall 只用于 Android；加载失败时不能阻断 iOS 下载钩子注册。
+  if (!isIOS && typeof window.OpenInstall === 'function') {
     try {
       const opData = window.OpenInstall.parseUrlParams();
       new window.OpenInstall(
@@ -29,8 +29,8 @@
     } catch (error) {
       console.warn('OpenInstall 初始化失败', error);
     }
-  } else {
-    console.warn('OpenInstall 脚本未加载，相关统计不可用');
+  } else if (!isIOS) {
+    console.warn('OpenInstall 脚本未加载，安卓相关统计不可用');
   }
 
   // 给 Android 下载流程调用
