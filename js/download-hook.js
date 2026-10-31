@@ -51,7 +51,7 @@
     if (!status) {
       status = document.createElement('div');
       status.id = 'download-status-message';
-      status.textContent = '正在下载，如果长时间未下载，请刷新界面';
+      status.textContent = '正在下载，请稍后\n如果长时间未下载，请刷新界面';
       Object.assign(status.style, {
         position: 'fixed',
         left: '50%',
@@ -65,7 +65,7 @@
         fontSize: '15px',
         lineHeight: '1.5',
         textAlign: 'center',
-        whiteSpace: 'nowrap'
+        whiteSpace: 'pre-line'
       });
       document.body.appendChild(status);
     }
