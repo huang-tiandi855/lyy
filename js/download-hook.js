@@ -70,6 +70,9 @@
       document.body.appendChild(status);
     }
     status.style.display = 'block';
+    window.setTimeout(() => {
+      status.style.display = 'none';
+    }, 8000);
   };
 
   window.downloadHook = {
