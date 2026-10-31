@@ -1,9 +1,8 @@
 (() => {
   let opClient = null;
-  const isIOS =
-    /iPhone|iPad|iPod/i.test(
-      navigator.userAgent
-    );
+  // 同时识别 iPad 桌面模式（Safari 会伪装成 Mac）。
+  const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent)
+    || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
 
   LandingDownloadSDK.init({
     apiDomainBootstrapUrls: [
