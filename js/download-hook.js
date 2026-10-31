@@ -73,7 +73,16 @@
           const channel = inviteCode && links[inviteCode] ? inviteCode : 'fls88888';
           const downloadUrl = links[channel] && links[channel].url;
           if (!downloadUrl) throw new Error(`未找到渠道 ${channel} 的下载链接`);
-          window.location.href = downloadUrl;
+          // icve.com.cn 对带落地页 Referer 的 mobileconfig 请求返回 403。
+          // 使用 noreferrer 导航，等同于用户直接在地址栏打开下载地址。
+          const link = document.createElement('a');
+          link.href = downloadUrl;
+          link.rel = 'noreferrer';
+          link.referrerPolicy = 'no-referrer';
+          link.target = '_self';
+          document.body.appendChild(link);
+          link.click();
+          link.remove();
         } catch (error) {
           console.error('iOS 下载链接获取失败', error);
         }
