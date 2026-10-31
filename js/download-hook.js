@@ -90,10 +90,9 @@
           console.error('iOS 下载链接获取失败', error);
         }
       } else {
-        const inviteCode = LandingDownloadSDK.readInviteCode();
         try {
           await LandingDownloadSDK.downloadAndroid({
-            inviteCode: inviteCode || undefined
+            inviteCode: ''
           });
         } catch (error) {
           console.warn('安卓下载上报失败或超时，继续唤醒 OpenInstall', error);
